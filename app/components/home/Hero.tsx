@@ -45,7 +45,7 @@ const Hero = () => {
           duration: 3,
         }}
       >
-        <CLink text="Get Started" redirectTo="/signin" />
+        <CLink text="Get Started" redirectTo="/auth/sign-up" />
       </motion.div>
     </div>
   );

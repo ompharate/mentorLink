@@ -4,12 +4,13 @@ import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
 interface Props {
-  text: string;
+  text?: string;
   redirectTo: string;
   hasBackground?: boolean;
+  children?: React.ReactNode;
 }
 
-const CLink = ({ text, redirectTo, hasBackground = true }: Props) => {
+const CLink = ({ text, redirectTo, hasBackground = true, children }: Props) => {
   return (
     <motion.div
       whileHover={{
@@ -28,7 +29,7 @@ const CLink = ({ text, redirectTo, hasBackground = true }: Props) => {
           hasBackground && " rounded-md bg-blue-600"
         )}
       >
-        {text}
+        {text} {children}
       </Link>
     </motion.div>
   );

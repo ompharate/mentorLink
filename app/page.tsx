@@ -14,7 +14,7 @@ export default function Home() {
           </span>
         </Navbar.Brand>
         <div className="flex md:order-2">
-          <CLink redirectTo="/signin" text="Login" />
+          <CLink redirectTo="/auth/sign-in" text="Login" />
           <Navbar.Toggle />
         </div>
       </Navbar>
