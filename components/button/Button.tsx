@@ -5,7 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 type variant = "Blue" | "Red" | "White";
 interface Props {
-  text: string;
+  text?: string;
   onClick?: () => void;
   disabled?: boolean;
   variant: variant;
@@ -33,7 +33,7 @@ const Button = ({
       disabled={disabled}
       aria-disabled={disabled}
       className={clsx(
-        "p-2 text-btntext  rounded-md hover:bg-blue-500 flex justify-between",
+        "p-2 text-btntext  rounded-md hover:bg-blue-500 flex justify-center gap-2 items-center",
         !disabled && buttonBackgroundColor,
         disabled && `bg-blue-400 cursor-not-allowed`
       )}

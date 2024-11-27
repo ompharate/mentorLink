@@ -23,7 +23,7 @@ export function Sidebar() {
         <h3 className="text-sm font-medium mb-2">Categories</h3>
         {categories.map((category) => (
           <div key={category.id} className="flex items-center mb-2">
-            <Checkbox id={category.id} />
+            <Checkbox className='text-white' id={category.id} />
             <Label htmlFor={category.id} className="ml-2">{category.name}</Label>
           </div>
         ))}
@@ -33,7 +33,7 @@ export function Sidebar() {
         <h3 className="text-sm font-medium mb-2">Experience Level</h3>
         {experienceLevels.map((level) => (
           <div key={level.id} className="flex items-center mb-2">
-            <Checkbox id={level.id} />
+            <Checkbox className='text-white checked:bg-blue-600' id={level.id} />
             <Label htmlFor={level.id} className="ml-2">{level.name}</Label>
           </div>
         ))}

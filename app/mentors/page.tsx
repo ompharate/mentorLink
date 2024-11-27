@@ -11,7 +11,7 @@ export default function MentorPage() {
       <SecondaryNavbar />
       <div className="flex-1 flex">
         <Sidebar />
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 max-w-6xl mx-auto">
           <h1 className="text-2xl font-bold mb-6">Find Your Perfect Mentor</h1>
           <TeacherGrid />
         </main>

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import Button from "../button/Button";
+import CLink from "../Link/CLink";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function MainNavbar() {
   return (
@@ -27,16 +28,26 @@ export function MainNavbar() {
                 Find Mentors
               </Link>
               <Link
+                href="/mentors"
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium "
+              >
+                My Mentors
+              </Link>
+              <Link
                 href="/about"
                 className="inline-flex items-center px-1 pt-1 text-sm font-medium"
               >
-                About
+                Be a Mentor
               </Link>
             </div>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            {/* <Button variant="outline" className="mr-2">Sign In</Button>
-            <Button>Sign Up</Button> */}
+            <CLink redirectTo="/profile" hasBackground={false}>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </CLink>
           </div>
         </div>
       </div>

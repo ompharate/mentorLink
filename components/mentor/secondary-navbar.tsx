@@ -22,7 +22,9 @@ export function SecondaryNavbar() {
             </div>
           </div>
           <div className="ml-4">
-            <Button variant="Blue" text="Search"/>
+            <Button variant="Blue">
+              <Search size={20}/>
+            </Button>
           </div>
         </div>
       </div>
