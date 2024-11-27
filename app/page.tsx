@@ -1,8 +1,9 @@
 "use client";
 import { Button, Navbar } from "flowbite-react";
-import Hero from "./components/home/Hero";
-import CLink from "./components/Link/CLink";
-import Example from "./components/home/DynamicList";
+import Hero from "../components/home/Hero";
+import CLink from "../components/Link/CLink";
+import Example from "@/components/home/DynamicList";
+
 export default function Home() {
   return (
     <div>

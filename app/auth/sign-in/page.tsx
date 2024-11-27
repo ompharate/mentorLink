@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/app/components/button/Button";
+import Button from "@/components/button/Button";
 import { Label, TextInput } from "flowbite-react";
 import { MoveLeft } from "lucide-react";
 import Image from "next/image";
