@@ -7,7 +7,7 @@ import { TeacherGrid } from "../../components/mentor/teacher-grid";
 export default function MentorPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <MainNavbar />
+      {/* <MainNavbar /> */}
       <SecondaryNavbar />
       <div className="flex-1 flex">
         <Sidebar />

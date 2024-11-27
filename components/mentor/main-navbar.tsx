@@ -1,8 +1,12 @@
+"use client";
 import Link from "next/link";
 import CLink from "../Link/CLink";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 export function MainNavbar() {
+  const pathName = usePathname();
+
   return (
     <nav className=" border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,33 +20,38 @@ export function MainNavbar() {
             </Link>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               <Link
-                href="/"
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium"
-              >
-                Home
-              </Link>
-              <Link
                 href="/mentors"
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 border-primary"
+                className={clsx(
+                  "inline-flex items-center px-1 pt-1 text-sm font-medium",
+                  pathName == "/mentors" && "border-primary  border-b-2"
+                )}
               >
                 Find Mentors
               </Link>
               <Link
-                href="/mentors"
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium "
+                href="/mentors/my-mentors"
+                className={clsx(
+                  "inline-flex items-center px-1 pt-1 text-sm font-medium",
+                  pathName == "/mentors/my-mentors" &&
+                    "border-primary  border-b-2"
+                )}
               >
                 My Mentors
               </Link>
               <Link
-                href="/about"
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium"
+                href="/mentors/be-mentor"
+                className={clsx(
+                  "inline-flex items-center px-1 pt-1 text-sm font-medium",
+                  pathName == "/mentors/be-mentor" &&
+                    "border-primary  border-b-2"
+                )}
               >
                 Be a Mentor
               </Link>
             </div>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            <CLink redirectTo="/profile" hasBackground={false}>
+            <CLink redirectTo="/mentors/profile" hasBackground={false}>
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
