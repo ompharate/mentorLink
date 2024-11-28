@@ -81,11 +81,11 @@ export default function FreelancerProfileForm() {
 
           <div className="space-y-2">
             <Label htmlFor="skills">Skills</Label>
-            <Select onValueChange={(value) => setSkills([...skills, value])}>
+            <Select  onValueChange={(value) => setSkills([...skills, value])}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a skill" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='text-black bg-white'>
                 <SelectItem value="react">React</SelectItem>
                 <SelectItem value="nodejs">Node.js</SelectItem>
                 <SelectItem value="python">Python</SelectItem>
@@ -94,10 +94,10 @@ export default function FreelancerProfileForm() {
             </Select>
             <div className="flex flex-wrap gap-2 mt-2">
               {skills.map((skill) => (
-                <Badge key={skill} variant="secondary" className="flex items-center gap-1">
+                <Badge key={skill}  className="flex items-center gap-1  border border-gray-100 bg-white">
                   {skill}
                   <X
-                    className="h-3 w-3 cursor-pointer"
+                    className="h-3 w-3 cursor-pointer "
                     onClick={() => setSkills(skills.filter((s) => s !== skill))}
                   />
                 </Badge>

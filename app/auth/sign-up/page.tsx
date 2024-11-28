@@ -5,7 +5,14 @@ import { MoveLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { signIn } from "next-auth/react";
 const SignUp = () => {
+  const signInWithGoogle = () => {
+    signIn("google", {
+      callbackUrl: "/mentors",
+    });
+  };
+
   return (
     <motion.div
       className="w-full h-screen overflow-y-hidden"
@@ -52,7 +59,7 @@ const SignUp = () => {
             or
             <div className="w-full  border border-gray-700" />
           </div>
-          <Button variant="White" text="Continue with Google" />
+          <Button onClick={signInWithGoogle} variant="White" text="Continue with Google" />
         </form>
       </div>
     </motion.div>
