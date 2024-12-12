@@ -1,27 +1,28 @@
-"use client";
-
-import Button from "@/components/button/Button";
+import { CustomSession, options } from "@/app/api/auth/[...nextauth]/options";
+import LogoutBtn from "@/components/mentor/profile/Logout";
 import { MentorProfile } from "@/components/mentor/profile/mentor-profile";
-import { UserProfile } from "@/components/mentor/profile/user-profile";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
+import UserProfile from "@/components/mentor/profile/user-profile";
 
-export default function ProfilePage() {
-  const onLogout = async () => {
-    await signOut({
-      callbackUrl: "/",
-    });
-  };
-  
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getServerSession } from "next-auth";
+
+export default async function ProfilePage() {
+  const session: CustomSession | null = await getServerSession(options);
+
+  const user = session?.user
+    ? {
+        id: session?.user.id!,
+        name: session?.user.name!,
+        email: session?.user.email!,
+        image: session?.user.image!,
+      }
+    : null;
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="w-full flex justify-between items-center">
         <h1 className="text-3xl font-bold mb-6">Profile</h1>
-        <Button onClick={onLogout} text="Logout" variant="Red">
-          <LogOut />
-        </Button>
+        <LogoutBtn />
       </div>
       <Tabs defaultValue="user" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
@@ -29,10 +30,10 @@ export default function ProfilePage() {
           <TabsTrigger value="mentor">My Mentor Profile</TabsTrigger>
         </TabsList>
         <TabsContent value="user">
-          <UserProfile />
+          <UserProfile user={user!} />
         </TabsContent>
         <TabsContent value="mentor">
-          <MentorProfile />
+          <MentorProfile userId={session?.user?.id!} />
         </TabsContent>
       </Tabs>
     </div>

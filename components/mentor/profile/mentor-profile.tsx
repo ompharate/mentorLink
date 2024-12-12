@@ -1,18 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { fetchMentor } from "@/lib/api";
 
-
-export function MentorProfile() {
-  // This would typically come from a database or API
-  const mentor = {
-    name: "Jane Doe",
-    expertise: "Web Development",
-    bio: "Experienced web developer with 10+ years in the industry. Passionate about teaching and helping others grow in their careers.",
-    avatarUrl: "/placeholder.svg?height=128&width=128",
-    hourlyRate: 50,
-    skills: ["JavaScript", "React", "Node.js", "Python", "SQL"],
-  }
+export async function MentorProfile({ userId }: { userId: String }) {
+  const mentor = await fetchMentor(userId);
 
   return (
     <div>
@@ -34,9 +26,11 @@ export function MentorProfile() {
               <div className="mt-4">
                 <h3 className="text-lg font-semibold mb-2">Skills</h3>
                 <div className="flex flex-wrap gap-2">
-                  {mentor.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary">{skill}</Badge>
-                  ))}
+                  {/* {mentor.skills.map((skill) => (
+                    <Badge key={skill} variant="secondary">
+                      {skill}
+                    </Badge>
+                  ))} */}
                 </div>
               </div>
             </div>
@@ -48,6 +42,5 @@ export function MentorProfile() {
         <button>Edit Mentor Profile</button>
       </div>
     </div>
-  )
+  );
 }
-
