@@ -1,177 +1,233 @@
-'use client'
-
-import { useState } from 'react'
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+"use client";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { X } from 'lucide-react'
-import Button from '@/components/button/Button'
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Bold, Italic, Upload } from "lucide-react";
+import Button from "@/components/button/Button";
+import { mentorValidationSchema } from "@/lib/yup";
+import { mentorData } from "@/types/custom";
+import { useSession } from "next-auth/react";
+import { createMentor } from "@/lib/api";
 
-export default function FreelancerProfileForm() {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [image, setImage] = useState<string | null>(null)
-  const [skills, setSkills] = useState<string[]>([])
-  const [hourlyRate, setHourlyRate] = useState('')
-  const [availableTime, setAvailableTime] = useState('')
+interface FormValues {
+  title: string;
+  description: string;
+  hourlyRate: number | "";
+  skills: string;
+  image?: File | null;
+}
+export default function JobPostingForm() {
+  const { data } = useSession();
+  const [message, setMessage] = useState<String | null>(null);
+  const [descriptionFormat, setDescriptionFormat] = useState({
+    bold: false,
+    italic: false,
+  });
+  const [fileName, setFileName] = useState<string>("");
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImage(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+  const initialValues: FormValues = {
+    title: "",
+    description: "",
+    hourlyRate: "",
+    skills: "",
+    image: null,
+  };
+
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: (field: string, value: any) => void
+  ) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setFieldValue("image", file);
+      setFileName(file.name);
     }
-  }
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-  
-    console.log({ title, description, image, skills, hourlyRate, availableTime })
-  }
+  const onSubmit = async (values: FormValues) => {
+    const formData: mentorData = {
+      title: values.title,
+      description: values.description,
+      hourlyRate: Number(values.hourlyRate),
+      skills: values.skills,
+      image: " ",
+      email: data?.user?.email,
+      userId: data?.user?.id,
+      name: data?.user?.name,
+    };
+
+    try {
+      await createMentor(formData);
+      setMessage("Form Submission Success");
+    } catch (error) {
+      setMessage("Form Submission Failed");
+    }
+  };
 
   return (
-    <Card className="w-full max-w-7xl mx-auto my-5 mb-5 border-none shadow-none">
+    <Card className="w-full max-w-7xl my-5 mx-auto border-none shadow-none">
+      <p>{message && message}</p>
       <CardHeader>
-        <CardTitle>Be a mentor</CardTitle>
+        <CardTitle className="text-3xl underline">Be a Mentor</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Senior Web Developer"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <RichTextEditor value={description} onChange={setDescription} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="image">Profile Image</Label>
-            <Input
-              id="image"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-            />
-            {image && (
-              <div className="mt-2">
-                <img src={image} alt="Profile" className="w-32 h-32 object-cover rounded" />
+        <Formik
+          initialValues={initialValues}
+          validationSchema={mentorValidationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ setFieldValue, handleSubmit }) => (
+            <Form className="grid grid-cols-2 gap-6  items-center">
+              {/* Title */}
+              <div className="grid gap-2">
+                <Label htmlFor="title">Title</Label>
+                <Field
+                  as={Input}
+                  id="title"
+                  name="title"
+                  type="text"
+                  placeholder="Enter the job title"
+                />
+                <ErrorMessage
+                  name="title"
+                  component="p"
+                  className="text-sm text-red-500"
+                />
               </div>
-            )}
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="skills">Skills</Label>
-            <Select  onValueChange={(value) => setSkills([...skills, value])}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a skill" />
-              </SelectTrigger>
-              <SelectContent className='text-black bg-white'>
-                <SelectItem value="react">React</SelectItem>
-                <SelectItem value="nodejs">Node.js</SelectItem>
-                <SelectItem value="python">Python</SelectItem>
-                <SelectItem value="design">UI/UX Design</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {skills.map((skill) => (
-                <Badge key={skill}  className="flex items-center gap-1  border border-gray-100 bg-white">
-                  {skill}
-                  <X
-                    className="h-3 w-3 cursor-pointer "
-                    onClick={() => setSkills(skills.filter((s) => s !== skill))}
+              <div className="grid gap-2">
+                <Label htmlFor="description">Description</Label>
+                <div className="flex gap-2 mb-2">
+                  <Button
+                    variant="Blue"
+                    onClick={() =>
+                      setDescriptionFormat((prev) => ({
+                        ...prev,
+                        bold: !prev.bold,
+                      }))
+                    }
+                  >
+                    <Bold className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="Red"
+                    onClick={() =>
+                      setDescriptionFormat((prev) => ({
+                        ...prev,
+                        italic: !prev.italic,
+                      }))
+                    }
+                  >
+                    <Italic className="h-4 w-4" />
+                  </Button>
+                </div>
+                <Field
+                  as={Textarea}
+                  id="description"
+                  name="description"
+                  placeholder="Describe the job requirements"
+                  className={`${descriptionFormat.bold ? "font-bold" : ""} ${
+                    descriptionFormat.italic ? "italic" : ""
+                  }`}
+                />
+                <ErrorMessage
+                  name="description"
+                  component="p"
+                  className="text-sm text-red-500"
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="image">Choose Image</Label>
+                <div className="flex items-center gap-4">
+                  <input
+                    id="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange(e, setFieldValue)}
+                    className="hidden"
                   />
-                </Badge>
-              ))}
-            </div>
-          </div>
+                  <Label
+                    htmlFor="image"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-primary/90"
+                  >
+                    <Upload className="h-4 w-4" />
+                    Upload Image
+                  </Label>
+                  <span className="text-sm text-muted-foreground">
+                    {fileName || "No file chosen"}
+                  </span>
+                </div>
+              </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="hourlyRate">Hourly Rate ($)</Label>
-            <Input
-              id="hourlyRate"
-              type="number"
-              value={hourlyRate}
-              onChange={(e) => setHourlyRate(e.target.value)}
-              placeholder="e.g. 50"
-              required
-            />
-          </div>
+              <div className="grid gap-2">
+                <Label htmlFor="hourlyRate">Hourly Rate ($)</Label>
+                <Field
+                  as={Input}
+                  id="hourlyRate"
+                  name="hourlyRate"
+                  type="number"
+                  min="1"
+                  placeholder="Enter hourly rate"
+                />
+                <ErrorMessage
+                  name="hourlyRate"
+                  component="p"
+                  className="text-sm text-red-500"
+                />
+              </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="availableTime">Daily Available Time From</Label>
-            <Input
-              id="availableTime"
-              type="time"
-              value={availableTime}
-              onChange={(e) => setAvailableTime(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="availableTime">Daily Available Time To</Label>
-            <Input
-              id="availableTime"
-              type="time"
-              value={availableTime}
-              onChange={(e) => setAvailableTime(e.target.value)}
-              required
-            />
-          </div>
+              <div className="grid gap-2">
+                <Label htmlFor="skills">Skills</Label>
+                <Field name="skills">
+                  {({ field }: { field: any }) => (
+                    <Select
+                      onValueChange={(value) => setFieldValue("skills", value)}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select required skills" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-blue-500 text-white">
+                        <SelectItem value="react">React</SelectItem>
+                        <SelectItem value="vue">Vue</SelectItem>
+                        <SelectItem value="angular">Angular</SelectItem>
+                        <SelectItem value="nodejs">Node.js</SelectItem>
+                        <SelectItem value="python">Python</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="skills"
+                  component="p"
+                  className="text-sm text-red-500"
+                />
+              </div>
 
-          <Button variant='Blue' text='Submit Profile'/>
-        </form>
+              <Button variant="Blue" type="submit">
+                Submit
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </CardContent>
     </Card>
-  )
+  );
 }
-
-interface RichTextEditorProps {
-  value: string
-  onChange: (value: string) => void
-}
-
-function RichTextEditor({ value, onChange }: RichTextEditorProps) {
-  const handleBold = () => {
-    onChange(value + ' **bold text**')
-  }
-
-  const handleItalic = () => {
-    onChange(value + ' *italic text*')
-  }
-
-  return (
-    <div className="space-y-2">
-      <div className="flex gap-2">
-        <Button variant="White" onClick={handleBold}>B</Button>
-        <Button  variant="White" onClick={handleItalic}>I</Button>
-      </div>
-      <Textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Describe your experience and skills..."
-        className="min-h-[100px]"
-      />
-    </div>
-  )
-}
-

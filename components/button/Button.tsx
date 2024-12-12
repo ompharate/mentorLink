@@ -5,6 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 type variant = "Blue" | "Red" | "White";
 interface Props {
+  type?: "button" | "submit" | "reset";
   text?: string;
   onClick?: () => void;
   disabled?: boolean;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const Button = ({
+  type = "button",
   text,
   onClick,
   disabled = false,
@@ -29,6 +31,7 @@ const Button = ({
 
   return (
     <motion.button
+      type={type}
       onClick={onClick}
       disabled={disabled}
       aria-disabled={disabled}

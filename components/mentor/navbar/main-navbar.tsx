@@ -1,10 +1,20 @@
 "use client";
 import Link from "next/link";
-import CLink from "../Link/CLink";
+import CLink from "../../Link/CLink";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-export function MainNavbar() {
+
+export interface MainNavbarProps {
+  user: {
+    id: string;
+    name: string;
+    image: string;
+  } | null;
+  isMentor: boolean;
+}
+
+export const MainNavbar: React.FC<MainNavbarProps> = ({ user, isMentor }) => {
   const pathName = usePathname();
 
   return (
@@ -38,28 +48,27 @@ export function MainNavbar() {
               >
                 My Mentors
               </Link>
-              <Link
-                href="/mentors/be-mentor"
-                className={clsx(
-                  "inline-flex items-center px-1 pt-1 text-sm font-medium",
-                  pathName == "/mentors/be-mentor" &&
-                    "border-primary  border-b-2"
-                )}
-              >
-                Be a Mentor
-              </Link>
+              {!isMentor && (
+                <Link
+                  href="/mentors/be-mentor"
+                  className={clsx(
+                    "inline-flex items-center px-1 pt-1 text-sm font-medium",
+                    pathName == "/mentors/be-mentor" &&
+                      "border-primary  border-b-2"
+                  )}
+                >
+                  Be a Mentor
+                </Link>
+              )}
             </div>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
             <CLink redirectTo="/mentors/profile" hasBackground={false}>
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+              <img className="rounded-xl w-12 h-12" src={user?.image}/>
             </CLink>
           </div>
         </div>
       </div>
     </nav>
   );
-}
+};

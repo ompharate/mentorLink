@@ -3,7 +3,6 @@ import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios, { AxiosError } from "axios";
-import { redirect } from "next/navigation";
 import { GOOGLE_LOGIN_URL, EMAIL_LOGIN_URL } from "@/lib/apiAuthRoutes";
 
 export interface CustomSession {
@@ -61,7 +60,7 @@ export const options: NextAuthOptions = {
     }),
   ],
   session: {
-    maxAge: 24 * 60 * 60, // 24 hours
+    maxAge: 24 * 60 * 60,
   },
   callbacks: {
     async signIn({
