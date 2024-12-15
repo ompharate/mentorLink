@@ -54,9 +54,14 @@ export const fetchMentor = async (userId: String) => {
   }
 };
 
-export const fetchMentors = async () => {
+export const fetchMentors = async (query: {
+  maxrate?: string;
+  category?: string;
+  search?:string;
+}) => {
+
   try {
-    const response = await fetch(`${FETCH_MENTORS}`, {
+    const response = await fetch(`${FETCH_MENTORS(query)}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
