@@ -94,6 +94,7 @@ const SignUp = () => {
 
           <Button
             variant="Blue"
+            type="submit"
             text="Submit"
             isLoading={isLoading}
             disabled={isLoading}

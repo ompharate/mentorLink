@@ -5,7 +5,7 @@ export const mentorValidationSchema = Yup.object({
   hourlyRate: Yup.number()
     .min(1, "Hourly rate must be greater than 0")
     .required("Hourly rate is required"),
-  skills: Yup.string().required("At least one skill is required"),
+    Category: Yup.string().required("At least one Category is required"),
 });
 
 export const signInValidationSchema = Yup.object().shape({

@@ -2,6 +2,7 @@ import { mentorData } from "@/types/custom";
 import {
   CREATE_MENTOR,
   FETCH_MENTOR,
+  FETCH_MENTOR_ID,
   FETCH_MENTORS,
   IS_USER_MENTOR,
 } from "./apiAuthRoutes";
@@ -72,5 +73,22 @@ export const fetchMentors = async (query: {
     return await response.json();
   } catch (error) {
     throw new Error("Error fetching mentors");
+  }
+};
+
+
+export const fetchMentorId = async (id: string) => {
+  try {
+    const response = await fetch(`${FETCH_MENTOR_ID(id)}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      cache: "no-store",
+    });
+    return await response.json();
+  } catch (error) {
+    throw new Error("Error fetching user mentor");
   }
 };

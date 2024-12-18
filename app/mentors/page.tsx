@@ -20,7 +20,7 @@ export default async function MentorPage({
           <h1 className="text-2xl font-bold mb-6">
             {session?.user?.name} - Find Your Perfect Mentor
           </h1>
-          <TeacherGrid query={query}/>
+          <TeacherGrid user={session?.user!} query={query}/>
         </main>
       </div>
     </div>

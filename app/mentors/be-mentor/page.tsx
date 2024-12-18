@@ -24,15 +24,17 @@ import { mentorValidationSchema } from "@/lib/yup";
 import { mentorData } from "@/types/custom";
 import { useSession } from "next-auth/react";
 import { createMentor } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   title: string;
   description: string;
   hourlyRate: number | "";
-  skills: string;
+  Category: string;
   image?: File | null;
 }
 export default function JobPostingForm() {
+  const router = useRouter();
   const { data } = useSession();
   const [message, setMessage] = useState<String | null>(null);
   const [descriptionFormat, setDescriptionFormat] = useState({
@@ -45,7 +47,7 @@ export default function JobPostingForm() {
     title: "",
     description: "",
     hourlyRate: "",
-    skills: "",
+    Category: "",
     image: null,
   };
 
@@ -65,16 +67,18 @@ export default function JobPostingForm() {
       title: values.title,
       description: values.description,
       hourlyRate: Number(values.hourlyRate),
-      skills: values.skills,
+      Category: values.Category,
       image: " ",
       email: data?.user?.email,
       userId: data?.user?.id,
       name: data?.user?.name,
     };
 
+    console.log(formData)
     try {
       await createMentor(formData);
       setMessage("Form Submission Success");
+      router.push("/mentors/profile");
     } catch (error) {
       setMessage("Form Submission Failed");
     }
@@ -194,28 +198,28 @@ export default function JobPostingForm() {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="skills">Skills</Label>
-                <Field name="skills">
+                <Label htmlFor="Category">Category</Label>
+                <Field name="Category">
                   {({ field }: { field: any }) => (
                     <Select
-                      onValueChange={(value) => setFieldValue("skills", value)}
+                      onValueChange={(value) => setFieldValue("Category", value)}
                       defaultValue={field.value}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select required skills" />
+                        <SelectValue placeholder="Select required Category" />
                       </SelectTrigger>
                       <SelectContent className="bg-blue-500 text-white">
-                        <SelectItem value="react">React</SelectItem>
-                        <SelectItem value="vue">Vue</SelectItem>
-                        <SelectItem value="angular">Angular</SelectItem>
-                        <SelectItem value="nodejs">Node.js</SelectItem>
-                        <SelectItem value="python">Python</SelectItem>
+                        <SelectItem value="react">CA</SelectItem>
+                        <SelectItem value="vue">Teacher</SelectItem>
+                        <SelectItem value="angular">Technology</SelectItem>
+                        <SelectItem value="nodejs">Lawyer</SelectItem>
+                        <SelectItem value="python">Doctor</SelectItem>
                       </SelectContent>
                     </Select>
                   )}
                 </Field>
                 <ErrorMessage
-                  name="skills"
+                  name="Category"
                   component="p"
                   className="text-sm text-red-500"
                 />

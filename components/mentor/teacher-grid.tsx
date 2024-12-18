@@ -3,9 +3,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Button from "../button/Button";
 import { ChevronRight } from "lucide-react";
 import { fetchMentors } from "@/lib/api";
+import { CustomUser } from "@/app/api/auth/[...nextauth]/options";
+import Link from "next/link";
 interface TeacherCardProps {
   name: string;
   id: string;
+  userId: string;
   title: string;
   expertise: string;
   rating: number;
@@ -15,8 +18,10 @@ interface TeacherCardProps {
 }
 
 export async function TeacherGrid({
+  user,
   query,
 }: {
+  user: CustomUser;
   query: {
     maxrate?: string;
     category?: string;
@@ -48,9 +53,12 @@ export async function TeacherGrid({
               </div>
             </CardContent>
             <CardFooter className="w-full flex justify-center">
-              <Button text="Book a Session" variant="Blue">
-                <ChevronRight />
-              </Button>
+              {mentor.userId !== user.id ? (
+                <Link className="flex gap-2 p-2 items-center bg-blue-600 text-white rounded-md" href={`/mentors/${mentor.id}`}>
+                  Book a session
+                  <ChevronRight />
+                </Link>
+              ) : null}
             </CardFooter>
           </Card>
         );

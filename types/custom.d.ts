@@ -6,6 +6,6 @@ export interface mentorData {
   hourlyRate: Number;
   email: String;
   name: String;
-  skills: String;
+  Category: String;
 }
 
