@@ -7,5 +7,6 @@ export interface mentorData {
   email: String;
   name: String;
   Category: String;
+  keyPoints: string[];
+  tags: string[];
 }
-

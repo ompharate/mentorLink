@@ -13,6 +13,8 @@ export default async function CourseDetailsPage({
   const course = {
     title: mentorDetails.title,
     description: mentorDetails.description,
+    keyPoints: mentorDetails.keyPoints,
+    tags: mentorDetails.tags,
     instructor: mentorDetails.name,
     duration: "10 hours",
     level: "Advanced",

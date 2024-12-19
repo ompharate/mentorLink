@@ -11,14 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Bold, Italic, Upload } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Upload } from "lucide-react";
 import Button from "@/components/button/Button";
 import { mentorValidationSchema } from "@/lib/yup";
 import { mentorData } from "@/types/custom";
@@ -31,11 +25,15 @@ interface FormValues {
   description: string;
   hourlyRate: number | "";
   Category: string;
+  keyPoints: string[];
+  tags: string[];
   image?: File | null;
 }
 export default function JobPostingForm() {
   const router = useRouter();
   const { data } = useSession();
+  const [tagsArray, setTagsArray] = useState<string[]>([]);
+  const [keyPointsArray, setKeyPointsArray] = useState<string[]>([]);
   const [message, setMessage] = useState<String | null>(null);
   const [descriptionFormat, setDescriptionFormat] = useState({
     bold: false,
@@ -47,6 +45,8 @@ export default function JobPostingForm() {
     title: "",
     description: "",
     hourlyRate: "",
+    tags: [],
+    keyPoints: [],
     Category: "",
     image: null,
   };
@@ -72,9 +72,11 @@ export default function JobPostingForm() {
       email: data?.user?.email,
       userId: data?.user?.id,
       name: data?.user?.name,
+      tags: values.tags,
+      keyPoints: values.keyPoints,
     };
 
-    console.log(formData)
+    console.log(formData);
     try {
       await createMentor(formData);
       setMessage("Form Submission Success");
@@ -85,7 +87,7 @@ export default function JobPostingForm() {
   };
 
   return (
-    <Card className="w-full max-w-7xl my-5 mx-auto border-none shadow-none">
+    <Card className="w-full max-w-[80%] my-5 mx-auto border-none shadow-none">
       <p>{message && message}</p>
       <CardHeader>
         <CardTitle className="text-3xl underline">Be a Mentor</CardTitle>
@@ -117,41 +119,80 @@ export default function JobPostingForm() {
 
               <div className="grid gap-2">
                 <Label htmlFor="description">Description</Label>
-                <div className="flex gap-2 mb-2">
-                  <Button
-                    variant="Blue"
-                    onClick={() =>
-                      setDescriptionFormat((prev) => ({
-                        ...prev,
-                        bold: !prev.bold,
-                      }))
-                    }
-                  >
-                    <Bold className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="Red"
-                    onClick={() =>
-                      setDescriptionFormat((prev) => ({
-                        ...prev,
-                        italic: !prev.italic,
-                      }))
-                    }
-                  >
-                    <Italic className="h-4 w-4" />
-                  </Button>
-                </div>
+
                 <Field
                   as={Textarea}
                   id="description"
                   name="description"
                   placeholder="Describe the job requirements"
-                  className={`${descriptionFormat.bold ? "font-bold" : ""} ${
-                    descriptionFormat.italic ? "italic" : ""
-                  }`}
                 />
                 <ErrorMessage
                   name="description"
+                  component="p"
+                  className="text-sm text-red-500"
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="tags">Tags</Label>
+                <Field
+                  as={Input}
+                  id="tags"
+                  name="tags"
+                  type="text"
+                  placeholder="Enter tags separated by commas"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const value = e.target.value;
+                    const tagsArray = value.split(",")
+                    setFieldValue("tags", tagsArray);
+                    setTagsArray(tagsArray);
+                  }}
+                />
+                <h1>
+                  {tagsArray.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-sm mr-2"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </h1>
+                <ErrorMessage
+                  name="tags"
+                  component="p"
+                  className="text-sm text-red-500"
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="tags">
+                  What User Will learn in short points
+                </Label>
+                <Field
+                  as={Input}
+                  id="tags"
+                  name="keyPoints"
+                  type="text"
+                  placeholder="Enter tags separated by commas"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const value = e.target.value;
+                    const tagsArray = value.split(",")
+                    setFieldValue("keyPoints", tagsArray);
+                    setKeyPointsArray(tagsArray);
+                  }}
+                />
+                <h1>
+                  {keyPointsArray.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-blue-500 text-white rounded-full px-3 py-1 text-sm mr-2"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </h1>
+                <ErrorMessage
+                  name="tags"
                   component="p"
                   className="text-sm text-red-500"
                 />
@@ -202,7 +243,9 @@ export default function JobPostingForm() {
                 <Field name="Category">
                   {({ field }: { field: any }) => (
                     <Select
-                      onValueChange={(value) => setFieldValue("Category", value)}
+                      onValueChange={(value) =>
+                        setFieldValue("Category", value)
+                      }
                       defaultValue={field.value}
                     >
                       <SelectTrigger>

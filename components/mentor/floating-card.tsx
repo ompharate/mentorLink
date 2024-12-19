@@ -67,7 +67,7 @@ export function FloatingCard({ course }: { course: Course }) {
               ₹{course.price.toFixed(2)}
             </span>
             <span className="text-xl line-through text-muted-foreground ml-2">
-              ${course.originalPrice.toFixed(2)}
+              ₹{course.price+ 200}
             </span>
             <span className="text-sm font-semibold text-green-600 ml-2">
               {discountPercentage}% off
@@ -169,7 +169,10 @@ export function FloatingCard({ course }: { course: Course }) {
               </Select>
 
               <DialogFooter>
-                <Button variant={"outline"} type="submit">₹999<ArrowRight/></Button>
+                <Button variant={"outline"} type="submit">
+                  ₹999
+                  <ArrowRight />
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
