@@ -20,7 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowRightCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { allocateMentor, createOrder } from "@/lib/api";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface Course {
   title: string;
@@ -28,11 +31,20 @@ interface Course {
   originalPrice: number;
   enrolledStudents: number;
   rating: number;
+  mentorId: string;
+}
+
+interface Plan {
+  amount: number;
+  duration: string;
 }
 
 export function FloatingCard({ course }: { course: Course }) {
+  const { data } = useSession();
   const [isSticky, setIsSticky] = useState(false);
-
+  const router = useRouter();
+  const [plan, setPlan] = useState<Plan | null>(null);
+  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -46,9 +58,64 @@ export function FloatingCard({ course }: { course: Course }) {
     };
   }, []);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => setRazorpayLoaded(true);
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const discountPercentage = Math.round(
     ((course.originalPrice - course.price) / course.originalPrice) * 100
   );
+
+  const plans: Plan[] = [
+    { amount: course.price, duration: "30MIN" },
+    { amount: course.price + 200, duration: "1HR" },
+    { amount: course.price + 300, duration: "2HR" },
+  ];
+
+  const handlePayment = async () => {
+    console.log(plan);
+    console.log(razorpayLoaded);
+    if (!plan) return;
+
+    try {
+      const { order } = await createOrder({ amount: plan.amount });
+
+      if (order) {
+        const options = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          amount: order.amount,
+          order_id: order.id,
+          currency: order.currency,
+          name: "MentorLink",
+          description: "Test Transaction",
+          handler: async (response: any) => {
+            await allocateMentor({
+              userId: data?.user.id,
+              mentorId: course.mentorId,
+            });
+            router.push("/mentors/my-mentors");
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment failed. Please try again.");
+    }
+  };
 
   return (
     <div
@@ -59,7 +126,10 @@ export function FloatingCard({ course }: { course: Course }) {
       <Card className="w-full">
         <CardContent className="p-6">
           <div className="aspect-video bg-muted mb-4 rounded-lg">
-            <img src="https://learn.piyushgarg.dev/_next/image?url=https%3A%2F%2Fdcaj3bhl5hivm.cloudfront.net%2F__courses%2Fbcfa1456-e84f-4483-8cb6-f8cd98a728dc%2FCOURSE_IMAGE%2Fdocker-image-FLlCmt.png&w=640&q=75" />
+            <img
+              src="https://learn.piyushgarg.dev/_next/image?url=https%3A%2F%2Fdcaj3bhl5hivm.cloudfront.net%2F__courses%2Fbcfa1456-e84f-4483-8cb6-f8cd98a728dc%2FCOURSE_IMAGE%2Fdocker-image-FLlCmt.png&w=640&q=75"
+              alt="Course Image"
+            />
           </div>
 
           <div className="flex items-baseline mb-4">
@@ -67,7 +137,7 @@ export function FloatingCard({ course }: { course: Course }) {
               ₹{course.price.toFixed(2)}
             </span>
             <span className="text-xl line-through text-muted-foreground ml-2">
-              ₹{course.price+ 200}
+              ₹{course.price + 200}
             </span>
             <span className="text-sm font-semibold text-green-600 ml-2">
               {discountPercentage}% off
@@ -147,30 +217,38 @@ export function FloatingCard({ course }: { course: Course }) {
               <DialogHeader>
                 <DialogTitle>Schedule a meeting</DialogTitle>
                 <DialogDescription>
-                  after successful payment you can communicate with your mentor
-                  and have meeting in your preferred timing
+                  After successful payment, you can communicate with your mentor
+                  and schedule a meeting at your preferred time.
                 </DialogDescription>
               </DialogHeader>
 
               <Select
-              // onValueChange={(value) => setFieldValue("Category", value)}
-              // defaultValue={field.value}
+                onValueChange={(value) =>
+                  setPlan({
+                    amount: plans[Number(value)].amount,
+                    duration: plans[Number(value)].duration,
+                  })
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select duration of the meeting" />
                 </SelectTrigger>
                 <SelectContent className="bg-blue-500 text-white">
-                  <SelectItem value="30Min">30Min</SelectItem>
-                  <SelectItem value="1Hr">1Hr</SelectItem>
-                  <SelectItem value="2Hr">2Hr</SelectItem>
-                  <SelectItem value="3Hr">3Hr</SelectItem>
-                  <SelectItem value="4Hr">4Hr</SelectItem>
+                  {plans.map((plan, index) => (
+                    <SelectItem key={index} value={String(index)}>
+                      {plan.duration}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
               <DialogFooter>
-                <Button variant={"outline"} type="submit">
-                  ₹999
+                <Button
+                  onClick={handlePayment}
+                  variant={"outline"}
+                  type="submit"
+                >
+                  ₹{plan?.amount} / {plan?.duration}
                   <ArrowRight />
                 </Button>
               </DialogFooter>

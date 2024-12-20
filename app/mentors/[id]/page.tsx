@@ -7,8 +7,8 @@ export default async function CourseDetailsPage({
 }: {
   params: { id: string };
 }) {
-  const mentorId = await params.id;
-  const mentorDetails = await fetchMentorId(mentorId);
+  const { id } = await params;
+  const mentorDetails = await fetchMentorId(id);
   console.log("->", mentorDetails);
   const course = {
     title: mentorDetails.title,
@@ -16,6 +16,7 @@ export default async function CourseDetailsPage({
     keyPoints: mentorDetails.keyPoints,
     tags: mentorDetails.tags,
     instructor: mentorDetails.name,
+    mentorId: id,
     duration: "10 hours",
     level: "Advanced",
     price: mentorDetails.hourlyRate,

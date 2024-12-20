@@ -5,6 +5,7 @@ interface Course {
   description: string;
   instructor: string;
   duration: string;
+  mentorId: string;
   level: string;
   topics: string[];
   tags: string[];
@@ -22,13 +23,12 @@ export function CourseDetails({ course }: { course: Course }) {
       <div className="flex flex-wrap gap-4">
         {course.tags.map((tag) => (
           <Badge variant="secondary" className="text-sm">
-            {tag} 
+            {tag}
           </Badge>
         ))}
-      <Badge variant="secondary" className="text-sm">
-        By {course.instructor}
-      </Badge>
-
+        <Badge variant="secondary" className="text-sm">
+          By {course.instructor}
+        </Badge>
       </div>
       <div>
         <h2 className="text-2xl font-semibold mb-4">What you'll learn</h2>

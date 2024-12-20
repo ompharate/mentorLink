@@ -100,7 +100,6 @@ export default function JobPostingForm() {
         >
           {({ setFieldValue, handleSubmit }) => (
             <Form className="grid grid-cols-2 gap-6  items-center">
-              {/* Title */}
               <div className="grid gap-2">
                 <Label htmlFor="title">Title</Label>
                 <Field
