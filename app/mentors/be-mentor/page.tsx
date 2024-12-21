@@ -19,6 +19,7 @@ import { mentorData } from "@/types/custom";
 import { useSession } from "next-auth/react";
 import { createMentor } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { submitData } from "@/lib/actions";
 
 interface FormValues {
   title: string;
@@ -78,9 +79,9 @@ export default function JobPostingForm() {
 
     console.log(formData);
     try {
-      await createMentor(formData);
+      submitData(formData);
       setMessage("Form Submission Success");
-      router.push("/mentors/profile");
+      // router.push("/mentors/profile");
     } catch (error) {
       setMessage("Form Submission Failed");
     }
@@ -142,7 +143,7 @@ export default function JobPostingForm() {
                   placeholder="Enter tags separated by commas"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const value = e.target.value;
-                    const tagsArray = value.split(",")
+                    const tagsArray = value.split(",");
                     setFieldValue("tags", tagsArray);
                     setTagsArray(tagsArray);
                   }}
@@ -175,7 +176,7 @@ export default function JobPostingForm() {
                   placeholder="Enter tags separated by commas"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const value = e.target.value;
-                    const tagsArray = value.split(",")
+                    const tagsArray = value.split(",");
                     setFieldValue("keyPoints", tagsArray);
                     setKeyPointsArray(tagsArray);
                   }}

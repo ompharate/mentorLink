@@ -18,5 +18,7 @@ export const FETCH_MENTORS = (query: {
 export const FETCH_MENTOR_ID = (id: string) => `${API_URL}/mentor?id=${id}`;
 export const CREATE_ORDER = `${API_URL}/payment/create-order`;
 export const ALLOCATE_MENTOR = `${API_URL}/user/allocate-mentor`;
+export const FETCH_MY_MENTORS = (userId: string) =>
+  `${API_URL}/user/mentors/${userId}`;
 // export const CHAT_GROUP_USERS = API_URL + "/chat-group-user";
 // export const CHATS_URL = API_URL + "/chats";

@@ -6,6 +6,7 @@ import {
   FETCH_MENTOR,
   FETCH_MENTOR_ID,
   FETCH_MENTORS,
+  FETCH_MY_MENTORS,
   IS_USER_MENTOR,
 } from "./apiAuthRoutes";
 
@@ -126,7 +127,7 @@ export const allocateMentor = async ({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      },  
+      },
       body: JSON.stringify({
         userId,
         mentorId,
@@ -139,5 +140,21 @@ export const allocateMentor = async ({
     }
   } catch (error) {
     throw new Error("Error creating order");
+  }
+};
+
+export const fetchMyMentors = async (userId: string) => {
+  try {
+    const response = await fetch(`${FETCH_MY_MENTORS(userId)}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      cache: "no-store",
+    });
+    return await response.json();
+  } catch (error) {
+    throw new Error("Error fetching mentors");
   }
 };
