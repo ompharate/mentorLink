@@ -4,6 +4,7 @@ import CLink from "../../Link/CLink";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
 
 export interface MainNavbarProps {
   user: {
@@ -58,6 +59,18 @@ export const MainNavbar: React.FC<MainNavbarProps> = ({ user, isMentor }) => {
                   )}
                 >
                   Be a Mentor
+                </Link>
+              )}
+              {isMentor && (
+                <Link
+                  href="/mentors/users/chat"
+                  className={clsx(
+                    "inline-flex items-center px-1 pt-1 text-sm font-medium",
+                    pathName == "/mentors/be-mentor" &&
+                      "border-primary  border-b-2"
+                  )}
+                >
+                  <ChatBubbleIcon/>
                 </Link>
               )}
             </div>

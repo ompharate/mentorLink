@@ -58,7 +58,7 @@ export default async function CourseDetailsPage({
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container max-w-7xl mx-auto px-4 py-8">
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="lg:w-2/3">
           <CourseDetails course={course} />

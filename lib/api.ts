@@ -7,6 +7,7 @@ import {
   FETCH_MENTOR_ID,
   FETCH_MENTORS,
   FETCH_MY_MENTORS,
+  FETCH_MY_USERS,
   IS_USER_MENTOR,
 } from "./apiAuthRoutes";
 
@@ -158,3 +159,19 @@ export const fetchMyMentors = async (userId: string) => {
     throw new Error("Error fetching mentors");
   }
 };
+
+export async function fetchMyUsers(userId: string) {
+  try {
+    const response = await fetch(`${FETCH_MY_USERS(userId)}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      cache: "no-store",
+    });
+    return await response.json();
+  } catch (error) { 
+    throw new Error("Error fetching mentors");
+  }
+}
