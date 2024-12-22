@@ -97,8 +97,7 @@ export const fetchMentorId = async (id: string) => {
 };
 
 export const createOrder = async (amount: { amount: number }) => {
-  console.log(amount);
-  console.log(CREATE_ORDER);
+
   try {
     const response = await fetch(`${CREATE_ORDER}`, {
       method: "POST",
@@ -123,7 +122,7 @@ export const allocateMentor = async ({
   userId: string;
   mentorId: string;
 }) => {
-  console.log(userId, mentorId);
+
   try {
     const response = await fetch(`${ALLOCATE_MENTOR}`, {
       method: "POST",

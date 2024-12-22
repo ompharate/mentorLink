@@ -23,7 +23,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       name: data?.user.name,
     });
 
-    console.log(newSocket.connected);
+   
     setSocket(newSocket);
 
     return () => {

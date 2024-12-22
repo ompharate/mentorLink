@@ -77,7 +77,7 @@ export default function JobPostingForm() {
       keyPoints: values.keyPoints,
     };
 
-    console.log(formData);
+  
     try {
       submitData(formData);
       setMessage("Form Submission Success");

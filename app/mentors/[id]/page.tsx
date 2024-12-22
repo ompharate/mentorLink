@@ -9,7 +9,7 @@ export default async function CourseDetailsPage({
 }) {
   const { id } = await params;
   const mentorDetails = await fetchMentorId(id);
-  console.log("->", mentorDetails);
+  
   const course = {
     title: mentorDetails.title,
     description: mentorDetails.description,

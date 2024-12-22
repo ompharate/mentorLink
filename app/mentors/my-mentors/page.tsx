@@ -10,7 +10,7 @@ import Link from "next/link";
 export default async function MyMentors() {
   const session: CustomSession | null = await getServerSession(options);
   const myMentors = await fetchMyMentors(session?.user!.id!);
-  console.log(myMentors)
+ 
   if(!myMentors) return <div>Loading...</div>
   return (
     <div className="max-w-7xl mx-auto my-5">

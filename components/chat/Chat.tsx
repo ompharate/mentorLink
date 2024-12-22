@@ -36,7 +36,7 @@ const Chat = ({ userId }: { userId: string }) => {
 
   const fetchUserChat = async () => {
     const chat = await fetchChat(userId);
-    console.log(chat);
+  
     setMessages(chat);
   };
 
@@ -75,7 +75,7 @@ function ChatMessage({
   message: string;
   isMine: boolean;
 }) {
-  console.log("isMine", isMine);
+
   return (
     <div
       className={`flex items-start space-x-3 ${

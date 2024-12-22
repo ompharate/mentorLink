@@ -1,5 +1,4 @@
 import UserNavbar from "@/components/mentor/navbar";
-import { MainNavbar } from "@/components/mentor/navbar/main-navbar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

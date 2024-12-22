@@ -81,8 +81,7 @@ export function FloatingCard({ course }: { course: Course }) {
   ];
 
   const handlePayment = async () => {
-    console.log(plan);
-    console.log(razorpayLoaded);
+
     if (!plan) return;
 
     try {
