@@ -29,6 +29,7 @@ interface FormValues {
   keyPoints: string[];
   tags: string[];
   image?: File | null;
+  userImage: string;
 }
 export default function JobPostingForm() {
   const router = useRouter();
@@ -36,10 +37,7 @@ export default function JobPostingForm() {
   const [tagsArray, setTagsArray] = useState<string[]>([]);
   const [keyPointsArray, setKeyPointsArray] = useState<string[]>([]);
   const [message, setMessage] = useState<String | null>(null);
-  const [descriptionFormat, setDescriptionFormat] = useState({
-    bold: false,
-    italic: false,
-  });
+
   const [fileName, setFileName] = useState<string>("");
 
   const initialValues: FormValues = {
@@ -48,6 +46,7 @@ export default function JobPostingForm() {
     hourlyRate: "",
     tags: [],
     keyPoints: [],
+    userImage: "",
     Category: "",
     image: null,
   };
@@ -72,6 +71,7 @@ export default function JobPostingForm() {
       image: " ",
       email: data?.user?.email,
       userId: data?.user?.id,
+      userImage: data?.user?.image,
       name: data?.user?.name,
       tags: values.tags,
       keyPoints: values.keyPoints,
@@ -81,7 +81,6 @@ export default function JobPostingForm() {
     try {
       submitData(formData);
       setMessage("Form Submission Success");
-      // router.push("/mentors/profile");
     } catch (error) {
       setMessage("Form Submission Failed");
     }

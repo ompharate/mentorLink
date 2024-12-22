@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PastMeetingsList } from "./past-meetings-list";
 
 interface props {
   user: {
@@ -35,11 +34,6 @@ const UserProfile: React.FC<props> = ({ user }) => {
           </div>
         </CardContent>
       </Card>
-
-      <div className="mt-8">
-        <h3 className="text-xl font-semibold mb-4">Past Meetings</h3>
-        <PastMeetingsList />
-      </div>
     </div>
   );
 };

@@ -20,42 +20,10 @@ export default async function CourseDetailsPage({
     duration: "10 hours",
     level: "Advanced",
     price: mentorDetails.hourlyRate,
-    originalPrice: 199.99,
+    originalPrice: mentorDetails.hourlyRate + 100,
     enrolledStudents: 1234,
     rating: 4.8,
-    topics: [
-      "Advanced React Hooks",
-      "Server Components",
-      "Next.js App Router",
-      "API Routes and Middleware",
-      "Performance Optimization",
-      "Testing and Deployment",
-    ],
-    syllabus: [
-      {
-        title: "Introduction to Advanced React",
-        description: "Overview of modern React features and best practices.",
-      },
-      {
-        title: "Deep Dive into Hooks",
-        description:
-          "Explore advanced use cases for React Hooks and custom hook creation.",
-      },
-      {
-        title: "Server Components in Next.js",
-        description:
-          "Learn how to leverage server components for improved performance.",
-      },
-      {
-        title: "Routing with Next.js App Router",
-        description: "Master the new file-based routing system in Next.js.",
-      },
-      {
-        title: "Building and Optimizing API Routes",
-        description: "Create efficient API routes and implement middleware.",
-      },
-    ],
-  };
+  }
 
   return (
     <div className="container max-w-7xl mx-auto px-4 py-8">

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ReactQueryProvider } from "@/react-query/provider";
 import localFont from "next/font/local";
 import AuthProvider from "./provider/AuthProvider";
 
@@ -24,9 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interFont.variable} antialiased h-screen bg-white`}>
-        <AuthProvider>
-          <ReactQueryProvider> {children}</ReactQueryProvider>
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

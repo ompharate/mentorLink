@@ -3,6 +3,7 @@ import {
   ALLOCATE_MENTOR,
   CREATE_MENTOR,
   CREATE_ORDER,
+  FETCH_CHAT,
   FETCH_MENTOR,
   FETCH_MENTOR_ID,
   FETCH_MENTORS,
@@ -171,7 +172,24 @@ export async function fetchMyUsers(userId: string) {
       cache: "no-store",
     });
     return await response.json();
-  } catch (error) { 
+  } catch (error) {
     throw new Error("Error fetching mentors");
+  }
+}
+
+export async function fetchChat(userId: string) {
+  try {
+    const response = await fetch(`${FETCH_CHAT(userId)}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      cache: "no-store",
+    });
+ 
+    return await response.json();
+  } catch (error) {
+    throw new Error("Error fetching chat");
   }
 }

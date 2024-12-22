@@ -8,5 +8,6 @@ export interface mentorData {
   name: String;
   Category: String;
   keyPoints: string[];
+  userImage: string;
   tags: string[];
 }

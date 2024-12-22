@@ -22,5 +22,4 @@ export const FETCH_MY_MENTORS = (userId: string) =>
   `${API_URL}/user/mentors/${userId}`;
 export const FETCH_MY_USERS = (userId: string) =>
   `${API_URL}/mentors/users/${userId}`;
-// export const CHAT_GROUP_USERS = API_URL + "/chat-group-user";
-// export const CHATS_URL = API_URL + "/chats";
+export const FETCH_CHAT = (userId: string) => `${API_URL}/user/chat/${userId}`;

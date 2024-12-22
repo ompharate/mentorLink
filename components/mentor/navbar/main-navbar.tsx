@@ -76,9 +76,9 @@ export const MainNavbar: React.FC<MainNavbarProps> = ({ user, isMentor }) => {
             </div>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            <CLink redirectTo="/mentors/profile" hasBackground={false}>
+            <Link href="/mentors/profile">
               <img className="rounded-xl w-12 h-12" src={user?.image}/>
-            </CLink>
+            </Link>
           </div>
         </div>
       </div>

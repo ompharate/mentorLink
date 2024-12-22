@@ -15,6 +15,7 @@ interface TeacherCardProps {
   hourlyRate: number;
   avatarUrl: string;
   image: string;
+  userImage: string;
 }
 
 export async function TeacherGrid({
@@ -29,7 +30,7 @@ export async function TeacherGrid({
   };
 }) {
   const mentors: TeacherCardProps[] = await fetchMentors(query);
-
+  if (!mentors) return <div>Loading...</div>;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {mentors.map((mentor: TeacherCardProps) => {
@@ -38,7 +39,7 @@ export async function TeacherGrid({
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
                 <Avatar className="h-12 w-12">
-                  <AvatarImage src={mentor.image} alt={mentor.title} />
+                  <AvatarImage src={mentor.userImage} alt={mentor.title} />
                   <AvatarFallback>{mentor.name}</AvatarFallback>
                 </Avatar>
                 <div>
@@ -54,7 +55,10 @@ export async function TeacherGrid({
             </CardContent>
             <CardFooter className="w-full flex justify-center">
               {mentor.userId !== user.id ? (
-                <Link className="flex gap-2 p-2 items-center bg-blue-600 text-white rounded-md" href={`/mentors/${mentor.id}`}>
+                <Link
+                  className="flex gap-2 p-2 items-center bg-blue-600 text-white rounded-md"
+                  href={`/mentors/${mentor.id}`}
+                >
                   Book a session
                   <ChevronRight />
                 </Link>

@@ -14,9 +14,9 @@ export default function Home() {
             MentorLink
           </span>
         </Navbar.Brand>
-        <div className="flex md:order-2">
+        <div className="flex  md:order-2">
           <CLink redirectTo="/auth/sign-in" text="Login" />
-          <Navbar.Toggle />
+
         </div>
       </Navbar>
       <Hero />

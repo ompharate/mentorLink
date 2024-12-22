@@ -7,10 +7,9 @@ interface Course {
   duration: string;
   mentorId: string;
   level: string;
-  topics: string[];
   tags: string[];
   keyPoints: string[];
-  syllabus: { title: string; description: string }[];
+  
 }
 
 export function CourseDetails({ course }: { course: Course }) {
@@ -57,7 +56,7 @@ export function CourseDetails({ course }: { course: Course }) {
 
       <div>
         <h2 className="text-2xl font-semibold mb-4">Course content</h2>
-        <p className="text-xl text-muted-foreground">{course.description}</p>
+        <pre className="text-xl text-muted-foreground text-wrap">{course.description}</pre>
       </div>
     </div>
   );

@@ -5,7 +5,11 @@ import { fetchMentor } from "@/lib/api";
 
 export async function MentorProfile({ userId }: { userId: String }) {
   const mentor = await fetchMentor(userId);
-
+  if (mentor.message) {
+    return (
+      <h2 className="font-semibold text-center py-5">Please register first.</h2>
+    );
+  }
   return (
     <div>
       <Card>
@@ -25,22 +29,11 @@ export async function MentorProfile({ userId }: { userId: String }) {
               <p className="mt-2 font-semibold">${mentor.hourlyRate}/hour</p>
               <div className="mt-4">
                 <h3 className="text-lg font-semibold mb-2">Skills</h3>
-                <div className="flex flex-wrap gap-2">
-                  {/* {mentor.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary">
-                      {skill}
-                    </Badge>
-                  ))} */}
-                </div>
               </div>
             </div>
           </div>
         </CardContent>
       </Card>
-
-      <div className="mt-8 flex justify-end">
-        <button>Edit Mentor Profile</button>
-      </div>
     </div>
   );
 }

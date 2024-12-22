@@ -12,7 +12,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
 import {
   Select,
   SelectContent,
@@ -24,6 +23,7 @@ import { ArrowRight } from "lucide-react";
 import { allocateMentor, createOrder } from "@/lib/api";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Button from "../button/Button";
 
 interface Course {
   title: string;
@@ -169,7 +169,7 @@ export function FloatingCard({ course }: { course: Course }) {
                     d="M5 13l4 4L19 7"
                   ></path>
                 </svg>
-                Lifetime access
+                Secure payment
               </li>
               <li className="flex items-center">
                 <svg
@@ -186,7 +186,7 @@ export function FloatingCard({ course }: { course: Course }) {
                     d="M5 13l4 4L19 7"
                   ></path>
                 </svg>
-                Certificate of completion
+                Effective mentorship
               </li>
               <li className="flex items-center">
                 <svg
@@ -203,7 +203,7 @@ export function FloatingCard({ course }: { course: Course }) {
                     d="M5 13l4 4L19 7"
                   ></path>
                 </svg>
-                30-day money-back guarantee
+                Gain practical knowledge
               </li>
             </ul>
           </div>
@@ -211,7 +211,9 @@ export function FloatingCard({ course }: { course: Course }) {
         <CardFooter>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">Schedule a meeting</Button>
+              <div  className="w-full flex justify-center">
+                <Button variant="Blue">Schedule a meeting</Button>
+              </div>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
@@ -243,11 +245,7 @@ export function FloatingCard({ course }: { course: Course }) {
               </Select>
 
               <DialogFooter>
-                <Button
-                  onClick={handlePayment}
-                  variant={"outline"}
-                  type="submit"
-                >
+                <Button onClick={handlePayment} variant={"Blue"} type="submit">
                   ₹{plan?.amount} / {plan?.duration}
                   <ArrowRight />
                 </Button>
