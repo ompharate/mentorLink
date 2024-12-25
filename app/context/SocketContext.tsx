@@ -14,7 +14,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { data } = useSession();
 
   useEffect(() => {
-    const newSocket = io("http://localhost:8080", {
+    const newSocket = io(process.env.NEXT_PUBLIC_BACKEND_URL, {
       autoConnect: true,
     });
 

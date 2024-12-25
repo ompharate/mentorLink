@@ -31,6 +31,7 @@ interface FormValues {
   image?: File | null;
   userImage: string;
 }
+export const dynamic = 'force-dynamic'
 export default function JobPostingForm() {
   const router = useRouter();
   const { data } = useSession();

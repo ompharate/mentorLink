@@ -1,15 +1,13 @@
 import { CourseDetails } from "@/components/mentor/course-details";
 import { FloatingCard } from "@/components/mentor/floating-card";
 import { fetchMentorId } from "@/lib/api";
+type tParams = Promise<{ slug: string[] }>;
 
-export default async function CourseDetailsPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = await params;
+export default async function CourseDetailsPage(props: { params: tParams }) {
+  const { slug } = await props.params;
+  const id = slug[0];
   const mentorDetails = await fetchMentorId(id);
-  
+
   const course = {
     title: mentorDetails.title,
     description: mentorDetails.description,
@@ -23,7 +21,7 @@ export default async function CourseDetailsPage({
     originalPrice: mentorDetails.hourlyRate + 100,
     enrolledStudents: 1234,
     rating: 4.8,
-  }
+  };
 
   return (
     <div className="container max-w-7xl mx-auto px-4 py-8">

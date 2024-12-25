@@ -1,8 +1,10 @@
-import { SecondaryNavbar } from "../../components/mentor/secondary-navbar";
-import { Sidebar } from "../../components/mentor/sidebar";
-import { TeacherGrid } from "../../components/mentor/teacher-grid";
-import { getServerSession } from "next-auth";
-import { CustomSession, options } from "../api/auth/[...nextauth]/options";
+import { SecondaryNavbar } from "@/components/mentor/secondary-navbar";
+import { Sidebar } from "@/components/mentor/sidebar";
+import { TeacherGrid } from "@/components/mentor/teacher-grid";
+import { getServerSession } from "next-auth/next";
+import { CustomSession, options } from "@/app/api/auth/[...nextauth]/options";
+
+export const dynamic = 'force-dynamic'
 
 export default async function MentorPage({
   searchParams,

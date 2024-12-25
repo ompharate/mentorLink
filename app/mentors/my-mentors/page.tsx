@@ -6,7 +6,7 @@ import { fetchMyMentors } from "@/lib/api";
 import { CustomSession, options } from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-
+export const dynamic = 'force-dynamic'
 export default async function MyMentors() {
   const session: CustomSession | null = await getServerSession(options);
   const myMentors = await fetchMyMentors(session?.user!.id!);

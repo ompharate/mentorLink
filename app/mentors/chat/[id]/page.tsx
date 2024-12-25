@@ -3,20 +3,14 @@ import MeetingCard from "@/components/chat/Card";
 import Chat from "@/components/chat/Chat";
 import SendButton from "@/components/chat/SendButton";
 import { getServerSession } from "next-auth";
-
-export default async function ChatWithCard({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
-  const { id } = await params;
+type tParams = Promise<{ slug: string[] }>;
+export default async function ChatWithCard(props: { params: tParams }) {
+  const { slug } = await props.params;
+  const id = slug[0];
   const session: CustomSession | null = await getServerSession(options);
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-100">
-     
       <div className="flex flex-col flex-1 p-6 space-y-6">
         <h1 className="text-2xl font-bold text-gray-800">Chat</h1>
         <div className="flex-1 overflow-y-auto bg-white rounded-lg shadow-md p-4">
@@ -32,12 +26,12 @@ export default async function ChatWithCard({
         </div>
       </div>
 
-    
       <div className="w-full md:w-1/3 p-4 md:p-6">
         <MeetingCard
           partnerId={id}
           name={session?.user?.name!}
           image={session?.user?.image!}
+          userId={session?.user?.id!}
         />
       </div>
     </div>

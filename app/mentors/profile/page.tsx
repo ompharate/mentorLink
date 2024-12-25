@@ -5,7 +5,7 @@ import UserProfile from "@/components/mentor/profile/user-profile";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getServerSession } from "next-auth";
-
+export const dynamic = 'force-dynamic'
 export default async function ProfilePage() {
   const session: CustomSession | null = await getServerSession(options);
 
