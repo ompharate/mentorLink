@@ -1,11 +1,11 @@
 import { CourseDetails } from "@/components/mentor/course-details";
 import { FloatingCard } from "@/components/mentor/floating-card";
 import { fetchMentorId } from "@/lib/api";
-type tParams = Promise<{ slug: string[] }>;
+type tParams = Promise<{ id: string }>;
 
 export default async function CourseDetailsPage(props: { params: tParams }) {
-  const { slug } = await props.params;
-  const id = slug[0];
+  const params = await props.params;
+  const id = params.id;
   const mentorDetails = await fetchMentorId(id);
 
   const course = {
