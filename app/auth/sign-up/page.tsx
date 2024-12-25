@@ -1,12 +1,12 @@
-"use client"
-import Button  from "@/components/button/Button";
+"use client";
+import Button from "@/components/button/Button";
 import { Label, TextInput } from "flowbite-react";
 import { MoveLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { signIn } from "next-auth/react";
-import {  useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { EMAIL_SIGNUP_URL } from "@/lib/apiAuthRoutes";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,9 @@ import { z } from "zod";
 
 const schema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -24,7 +26,11 @@ type FormData = z.infer<typeof schema>;
 const SignUp = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
@@ -40,7 +46,7 @@ const SignUp = () => {
     setIsLoading(true);
     try {
       const result = await axios.post(EMAIL_SIGNUP_URL, {
-        name: "karan",
+        name: "usr" + String(Math.random() * 10000),
         email: data.email,
         password: data.password,
         oauth_provider: "email",
@@ -60,7 +66,10 @@ const SignUp = () => {
       transition={{ duration: 3 }}
     >
       <div className="flex justify-center items-center h-screen">
-        <form className="flex w-4/12 flex-col gap-4" onSubmit={handleSubmit(handleFormSubmit)}>
+        <form
+          className="flex w-4/12 flex-col gap-4"
+          onSubmit={handleSubmit(handleFormSubmit)}
+        >
           <Link href="/">
             <MoveLeft color="black" />
           </Link>
@@ -78,7 +87,9 @@ const SignUp = () => {
               placeholder="name@user.com"
               {...register("email")}
             />
-            {errors.email && <span className="text-red-600">{errors.email.message}</span>}
+            {errors.email && (
+              <span className="text-red-600">{errors.email.message}</span>
+            )}
           </div>
           <div>
             <div className="mb-2 block">
@@ -89,7 +100,9 @@ const SignUp = () => {
               type="password"
               {...register("password")}
             />
-            {errors.password && <span className="text-red-600">{errors.password.message}</span>}
+            {errors.password && (
+              <span className="text-red-600">{errors.password.message}</span>
+            )}
           </div>
 
           <Button

@@ -9,6 +9,6 @@ export default async function Page(props: { searchParams: tParams }) {
   console.log(slug);
   const roomName = slug.name;
   const name = slug.roomName;
-  console.log(roomName, name);
+
   return <VideoCall roomName={roomName} userName={name} />;
 }
