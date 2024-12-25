@@ -46,7 +46,7 @@ const SignUp = () => {
     setIsLoading(true);
     try {
       const result = await axios.post(EMAIL_SIGNUP_URL, {
-        name: "usr" + String(Math.random() * 10000),
+        name: "usr" + String(Math.round(Math.random() * 100)),
         email: data.email,
         password: data.password,
         oauth_provider: "email",
