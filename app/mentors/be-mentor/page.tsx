@@ -17,7 +17,6 @@ import Button from "@/components/button/Button";
 import { mentorValidationSchema } from "@/lib/yup";
 import { mentorData } from "@/types/custom";
 import { useSession } from "next-auth/react";
-import { createMentor } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { submitData } from "@/lib/actions";
 

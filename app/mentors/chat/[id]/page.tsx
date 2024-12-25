@@ -3,10 +3,10 @@ import MeetingCard from "@/components/chat/Card";
 import Chat from "@/components/chat/Chat";
 import SendButton from "@/components/chat/SendButton";
 import { getServerSession } from "next-auth";
-type tParams = Promise<{ slug: string[] }>;
+type tParams = Promise<{ id: string }>;
 export default async function ChatWithCard(props: { params: tParams }) {
-  const { slug } = await props.params;
-  const id = slug[0];
+  const params = await props.params;
+  const id = params.id;
   const session: CustomSession | null = await getServerSession(options);
 
   return (
