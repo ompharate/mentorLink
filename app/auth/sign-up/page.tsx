@@ -48,7 +48,7 @@ const SignUp = () => {
       const result = await axios.post(EMAIL_SIGNUP_URL, {
         name: "usr" + String(Math.round(Math.random() * 100)),
         email: data.email,
-        password: data.password,
+        password: data.password,  
         oauth_provider: "email",
       });
       router.push("/auth/sign-in");

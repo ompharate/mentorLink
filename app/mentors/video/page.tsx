@@ -6,9 +6,8 @@ type tParams = Promise<{
 export const dynamic = "force-dynamic";
 export default async function Page(props: { searchParams: tParams }) {
   const slug = await props.searchParams;
-  console.log(slug);
-  const roomName = slug.name;
-  const name = slug.roomName;
+  const roomName = slug.roomName;
+  const name = slug.name;
 
   return <VideoCall roomName={roomName} userName={name} />;
 }
